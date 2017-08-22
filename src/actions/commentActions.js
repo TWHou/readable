@@ -4,8 +4,6 @@ const RECEIVE_COMMENTS = 'GET_COMMENTS';
 const ADD_COMMENT = 'ADD_COMMENT';
 const VOTE_COMMENT = 'VOTE_COMMENT';
 const EDIT_COMMENT = 'EDIT_COMMENT';
-
-//Sets a comment's deleted flag to 'true'
 const DELETE_COMMENT = 'DELETE_COMMENT';
 
 const receiveComments = (comments) => ({
@@ -19,19 +17,9 @@ export const getCommentsAPI = (parentId) => (dispatch) => {
   );
 };
 
-export const getCommentAPI = (id) => (dispatch) => {
-  api.getComment(id).then(
-    (comment) => dispatch(receiveComments(comment))
-  );
-};
-
-const addComment = ({ id, timestamp, body, owner, parentId }) => ({
+const addComment = (comment) => ({
   type: ADD_COMMENT,
-  id,
-  timestamp,
-  body,
-  owner,
-  parentId
+  comment
 });
 
 export const postCommentAPI = (comment) => (dispatch) => {
@@ -52,10 +40,9 @@ export const voteCommentAPI = (id, vote) => (dispatch) => {
   );
 };
 
-const editComment = ({ id, body }) => ({
+const editComment = (comment) => ({
   type: EDIT_COMMENT,
-  id,
-  body
+  comment
 });
 
 export const editCommentAPI = (id, comment) => (dispatch) => {
@@ -64,9 +51,9 @@ export const editCommentAPI = (id, comment) => (dispatch) => {
   );
 };
 
-const deleteComment = ({ id }) => ({
+const deleteComment = (comment) => ({
   type: DELETE_COMMENT,
-  id
+  comment
 });
 
 export const deleteCommentAPI = (id) => (dispatch) => {

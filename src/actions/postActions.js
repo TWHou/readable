@@ -1,10 +1,11 @@
 import api from '../utils/api';
 
-const RECEIVE_POSTS = 'GET_CAT_POST';
-const ADD_POST = 'ADD_POST';
-const VOTE_POST = 'VOTE_POST';
-const EDIT_POST = 'EDIT_POST';
-const DELETE_POST = 'DELETE_POST';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_POST = 'RECEIVE_POST';
+export const ADD_POST = 'ADD_POST';
+export const VOTE_POST = 'VOTE_POST';
+export const EDIT_POST = 'EDIT_POST';
+export const DELETE_POST = 'DELETE_POST';
 
 const receivePosts = (posts) => ({
   type: RECEIVE_POSTS,
@@ -23,24 +24,24 @@ export const getPostsAPI = () => (dispatch) => {
   );
 };
 
+const receivePost = (post) => ({
+  type: RECEIVE_POST,
+  post
+});
+
 export const getPostAPI = (id) => (dispatch) => {
   api.getPost(id).then(
-    (post) => dispatch(receivePosts(post))
+    (post) => dispatch(receivePost(post))
   );
 };
 
-const addPost = ({ id, timestamp, title, body, owner, category }) => ({
+const addPost = (post) => ({
   type: ADD_POST,
-  id,
-  timestamp,
-  title,
-  body,
-  owner,
-  category
+  post
 });
 
-export const postPostAPI = (post) => (dispatch) => {
-  api.postPost(post).then(
+export const addPostAPI = (post) => (dispatch) => {
+  api.addPost(post).then(
     (post) => dispatch(addPost(post))
   );
 };
@@ -51,29 +52,26 @@ const votePost = ({ id, vote }) => ({
   vote
 });
 
-export const postVoteAPI = (id, vote) => (dispatch) => {
-  api.postVote(id, vote).then(
+export const votePostAPI = (id, vote) => (dispatch) => {
+  api.votePost(id, vote).then(
     (post) => dispatch(votePost(post))
   );
 };
 
-const editPost = ({ id, title, body, category }) => ({
+const editPost = (post) => ({
   type: EDIT_POST,
-  id,
-  title,
-  body,
-  category
+  post
 });
 
-export const putPostAPI = (id, post) => (dispatch) => {
-  api.putPost(id, post).then(
+export const editPostAPI = (id, post) => (dispatch) => {
+  api.editPost(id, post).then(
     (post) => dispatch(editPost(post))
   );
 };
 
-const deletePost = ({ id }) => ({
+const deletePost = (post) => ({
   type: DELETE_POST,
-  id
+  post
 });
 
 export const deletePostAPI = (id) => (dispatch) => {

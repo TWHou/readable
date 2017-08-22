@@ -1,7 +1,7 @@
 import api from '../utils/api';
 
-const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-const SELECT_CATEGORY = 'SELECT_CATEGORY';
+export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const SELECT_CATEGORY = 'SELECT_CATEGORY';
 
 const receiveCategories = (categories) => ({
     type: RECEIVE_CATEGORIES,
@@ -14,7 +14,7 @@ export const getCategories = () => (dispatch) => {
   );
 };
 
-export const selectCategory = (category) => ({
+export const selectCategory = (selectedCategory) => ({
   type: SELECT_CATEGORY,
-  category
+  selectedCategory
 });
