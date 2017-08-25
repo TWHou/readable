@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const root = 'http://localhost:5001';
+
 // https://gist.github.com/jed/982883
 const uuidv4 = () => ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
   (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -17,7 +19,7 @@ const api = {};
 // USAGE:
 // Get all of the categories available for the app. List is found in categories.js. Feel free to extend this list as you desire.
 
-api.getCategories = () => axios.get('/api/categories')
+api.getCategories = () => axios.get(`${root}/categories`)
 .then((res) => res.data)
 .then((categories) => categories.map((category) => category.name));
 
@@ -25,14 +27,14 @@ api.getCategories = () => axios.get('/api/categories')
 // USAGE:
 // Get all of the posts for a particular category
 
-api.getCategoryPosts = (category) => axios.get(`/api/${category}/posts`)
+api.getCategoryPosts = (category) => axios.get(`${root}/${category}/posts`)
 .then((res) => res.data);
 
 // GET /posts
 // USAGE:
 // Get all of the posts. Useful for the main page when no category is selected.
 
-api.getPosts = () => axios.get('/api/posts')
+api.getPosts = () => axios.get(`${root}/posts`)
 .then((res) => res.data);
 
 // POST /posts
@@ -43,7 +45,7 @@ api.addPost = (post) => {
   const id = uuidv4();
   const timestamp = Date().now;
   post = { ...post, id, timestamp };
-  return axios.post('/api/posts', post)
+  return axios.post(`${root}/posts`, post)
   .then((res) => res.data);
 };
 
@@ -63,7 +65,7 @@ api.addPost = (post) => {
 // USAGE:
 // Used for voting on a post
 
-api.votePost = (id, vote) => axios.post(`/api/posts/${id}`, {option: vote})
+api.votePost = (id, vote) => axios.post(`${root}/posts/${id}`, {option: vote})
 .then((res) => res.data);
 
 // PARAMS:
@@ -73,7 +75,7 @@ api.votePost = (id, vote) => axios.post(`/api/posts/${id}`, {option: vote})
 // USAGE:
 // Edit the details of an existing post
 
-api.editPost = (id, post) => axios.put(`/api/posts/${id}`, post)
+api.editPost = (id, post) => axios.put(`${root}/posts/${id}`, post)
 .then((res) => res.data);
 
 // PARAMS:
@@ -85,14 +87,14 @@ api.editPost = (id, post) => axios.put(`/api/posts/${id}`, post)
 // Sets the deleted flag for a post to 'true'.
 // Sets the parentDeleted flag for all child comments to 'true'.
 
-api.deletePost = (id) => axios.delete(`/api/posts/${id}`)
+api.deletePost = (id) => axios.delete(`${root}/posts/${id}`)
 .then((res) => res.data);
 
 // GET /posts/:id/comments
 // USAGE:
 // Get all the comments for a single post
 
-api.getComments = (id) => axios.get(`/api/posts/${id}/comments`)
+api.getComments = (id) => axios.get(`${root}/posts/${id}/comments`)
 .then((res) => res.data);
 
 // POST /comments
@@ -103,7 +105,7 @@ api.addComment = (comment) => {
   const id = uuidv4();
   const timestamp = Date().now;
   comment = { ...comment, id, timestamp };
-  return axios.post(`/api/comments`, comment)
+  return axios.post(`${root}/comments`, comment)
   .then((res) => res.data);
 };
 
@@ -123,7 +125,7 @@ api.addComment = (comment) => {
 // Used for voting on a comment.
 
 api.voteComment = (id, vote) => axios.post(
-  `/api/comments/${id}`,
+  `${root}/comments/${id}`,
   { option: vote }
 ).then((res) => res.data);
 
@@ -132,7 +134,7 @@ api.voteComment = (id, vote) => axios.post(
 // Edit the details of an existing comment
 
 api.editComment = (id, comment) => axios.put(
-  `/api/comments/${id}`,
+  `${root}/comments/${id}`,
   comment
 ).then((res) => res.data);
 
@@ -144,7 +146,7 @@ api.editComment = (id, comment) => axios.put(
 // USAGE:
 // Sets a comment's deleted flag to 'true' 
 
-api.deleteComment = (id) => axios.delete(`/api/comments/${id}`)
+api.deleteComment = (id) => axios.delete(`${root}/comments/${id}`)
 .then((res) => res.data);
 
 export default api;

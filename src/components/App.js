@@ -16,7 +16,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={PostList} />
           <Route exact path="/new" component={PostForm} />
-          <Route exact path="/:postId" component={PostDetail} />
+          <Route path="/:postId" component={PostDetail} />
         </Switch>
       </div>
     );
