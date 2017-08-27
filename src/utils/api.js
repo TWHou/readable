@@ -2,10 +2,12 @@ import axios from 'axios';
 
 const root = 'http://localhost:5001';
 
+/*eslint-disable*/
 // https://gist.github.com/jed/982883
 const uuidv4 = () => ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
   (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
 );
+/*eslint-enable*/
 
 const generateToken = () => Math.random().toString(36).substr(-8);
 
@@ -20,7 +22,7 @@ const api = {};
 // Get all of the categories available for the app. List is found in categories.js. Feel free to extend this list as you desire.
 
 api.getCategories = () => axios.get(`${root}/categories`)
-.then((res) => res.data)
+.then((res) => res.data.categories)
 .then((categories) => categories.map((category) => category.name));
 
 // GET /:category/posts
