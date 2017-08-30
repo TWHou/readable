@@ -17,6 +17,7 @@ import {
 
 
 import { selectCategory } from '../actions/categoryActions';
+import { getPostsAPI } from '../actions/postActions';
 import { capitalize } from '../utils/helpers';
 
 class Navigation extends Component {
@@ -24,6 +25,11 @@ class Navigation extends Component {
   state = {
     isOpen: false,
     dropdownOpen: false
+  }
+
+  onSelect = (category) => {
+    this.props.selectCategory(category);
+    this.props.getPosts(category);
   }
   
   toggleNav = () => {
@@ -52,11 +58,14 @@ class Navigation extends Component {
                     Category
                   </DropdownToggle>
                   <DropdownMenu>
+                    <DropdownItem onClick={() => this.onSelect(null)}>
+                      All
+                    </DropdownItem>
                     {this.props.categories.map((category) => (
                       <DropdownItem
                         key={category}
                         onClick={
-                          () => this.props.selectCategory(category)
+                          () => this.onSelect(category)
                         }
                       >
                         {capitalize(category)}
@@ -82,6 +91,7 @@ class Navigation extends Component {
 Navigation.propTypes = {
   categories: PropTypes.array,
   selectCategory: PropTypes.func,
+  getPosts: PropTypes.func
 };
 
 Navigation.defaultProps = {
@@ -94,5 +104,8 @@ const mapStateToProps = ({ category }) => ({
 
 export default connect(
   mapStateToProps,
-  { selectCategory: selectCategory }
+  { 
+    selectCategory: selectCategory,
+    getPosts: getPostsAPI
+  }
 )(Navigation);

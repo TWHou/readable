@@ -12,16 +12,16 @@ const receivePosts = (posts) => ({
   posts
 });
 
-export const getCategoryPostsAPI = (category) => (dispatch) => {
-  api.getCategoryPosts(category).then(
-    (posts) => dispatch(receivePosts(posts))
-  );
-};
-
-export const getPostsAPI = () => (dispatch) => {
-  api.getPosts().then(
-    (posts) => dispatch(receivePosts(posts))
-  );
+export const getPostsAPI = (category) => (dispatch) => {
+  if(category) {
+    api.getCategoryPosts(category).then(
+      (posts) => dispatch(receivePosts(posts))
+    );
+  } else {
+    api.getPosts().then(
+      (posts) => dispatch(receivePosts(posts))
+    );
+  }
 };
 
 const receivePost = (post) => ({

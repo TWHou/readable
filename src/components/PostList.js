@@ -1,33 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Card, CardText, CardBlock,
   CardTitle, CardSubtitle } from 'reactstrap';
 
-import { getPostsAPI, getCategoryPostsAPI } from '../actions/postActions';
-
 class PostList extends Component {
-
-  componentDidMount() {
-    this.updatePosts();
-  }
-  
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedCategory !== this.props.selectedCategory) {
-      this.updatePosts();
-    }
-  }
-  
-
-  updatePosts() {
-    if (this.props.selectedCategory) {
-      this.props.getCategoryPosts(this.props.selectedCategory);
-    } else {
-      this.props.getPosts();
-    }
-  }
-  
-
   render() {
     return (
       <div>
@@ -35,7 +13,11 @@ class PostList extends Component {
           this.props.posts.map((post) => 
             <Card key={post.id}>
               <CardBlock>
-                <CardTitle>{post.title}</CardTitle>
+                <CardTitle>
+                  <Link to={`/${post.id}`}>
+                    {post.title}
+                  </Link>
+                </CardTitle>
                 <CardSubtitle>{post.author}</CardSubtitle>
                 <CardText>
                   {post.body}
@@ -50,33 +32,22 @@ class PostList extends Component {
 }
 
 PostList.propTypes = {
-  selectedCategory: PropTypes.string,
-  getCategoryPosts: PropTypes.func,
-  getPosts: PropTypes.func,
   posts: PropTypes.array
 };
 
-PostList.defaultProps = {
-  posts: []
-};
-
-const mapStateToProps = ({ category, post }) => {
+const mapStateToProps = ({ post }) => {
   if (post.posts) {
     return {
-      ...category,
       posts: Object.keys(post.posts).map((postId) => post.posts[postId])
     };
   } else {
     return {
-      ...category
+      posts: []
     };
   }
 };
 
 export default connect(
   mapStateToProps,
-  {
-    getPosts: getPostsAPI,
-    getCategoryPosts: getCategoryPostsAPI
-  }
+  null
 )(PostList);

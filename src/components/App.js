@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 
 import { getCategories } from '../actions/categoryActions';
+import { getPostsAPI } from '../actions/postActions';
 import Navigation from './Navigation';
 import PostList from './PostList';
 import PostForm from './PostForm';
@@ -15,6 +16,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getCategories();
+    this.props.getPosts();
   }
 
   render() {
@@ -33,9 +35,13 @@ class App extends Component {
 
 App.propTypes = {
   getCategories: PropTypes.func,
+  getPosts: PropTypes.func,
 };
 
-export default connect(
+export default  withRouter(connect(
   null,
-  { getCategories: getCategories }
-)(App);
+  {
+    getCategories: getCategories,
+    getPosts: getPostsAPI
+  }
+)(App));
