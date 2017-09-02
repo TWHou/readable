@@ -22,7 +22,7 @@ const addComment = (comment) => ({
   comment
 });
 
-export const postCommentAPI = (comment) => (dispatch) => {
+export const addCommentAPI = (comment) => (dispatch) => {
   api.addComment(comment).then(
     (comment) => dispatch(addComment(comment))
   );

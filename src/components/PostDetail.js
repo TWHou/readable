@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText, CardBlock,
-  CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem } from 'reactstrap';
+  CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 
 import { getCommentsAPI } from '../actions/commentActions';
+import CommentForm from './CommentForm';
   
 class PostDetail extends Component {
 
   componentDidMount() {
     this.props.getComments(this.props.match.params.postId);
   }
-  
 
   render() {
     const { post } = this.props;
@@ -34,6 +34,10 @@ class PostDetail extends Component {
                   </ListGroupItem>
                 )
               }
+              <ListGroupItem>
+                <ListGroupItemHeading>Add a Comment</ListGroupItemHeading>
+                <CommentForm parentId={this.props.match.params.postId} />
+              </ListGroupItem>
             </ListGroup>
           </Card>
         )}

@@ -9,7 +9,11 @@ const uuidv4 = () => ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
 );
 /*eslint-enable*/
 
-const generateToken = () => Math.random().toString(36).substr(-8);
+const generateToken = () => {
+  const token = Math.random().toString(36).substr(-8);
+  localStorage.setItem('token', token);
+  return token;
+};
 
 const token = localStorage.getItem('token') || generateToken();
 
