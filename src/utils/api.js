@@ -49,7 +49,7 @@ api.getPosts = () => axios.get(`${root}/posts`)
 
 api.addPost = (post) => {
   const id = uuidv4();
-  const timestamp = Date().now;
+  const timestamp = Date.now();
   post = { ...post, id, timestamp };
   return axios.post(`${root}/posts`, post)
   .then((res) => res.data);
@@ -109,7 +109,7 @@ api.getComments = (id) => axios.get(`${root}/posts/${id}/comments`)
 
 api.addComment = (comment) => {
   const id = uuidv4();
-  const timestamp = Date().now;
+  const timestamp = Date.now();
   comment = { ...comment, id, timestamp };
   return axios.post(`${root}/comments`, comment)
   .then((res) => res.data);

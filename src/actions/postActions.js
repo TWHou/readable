@@ -46,10 +46,10 @@ export const addPostAPI = (post) => (dispatch) => {
   );
 };
 
-const votePost = ({ id, vote }) => ({
+const votePost = ({ id, voteScore }) => ({
   type: VOTE_POST,
   id,
-  vote
+  voteScore
 });
 
 export const votePostAPI = (id, vote) => (dispatch) => {

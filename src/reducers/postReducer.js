@@ -38,7 +38,7 @@ const postReducer = (state={}, action) => {
           ...state.posts,
           [action.id]: {
             ...state.posts[action.id],
-            vote: action.vote
+            voteScore: action.voteScore
           }
         }
       };
