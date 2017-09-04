@@ -9,6 +9,7 @@ import Moment from 'react-moment';
 
 import { votePostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';
+import Comment from './Comment';
 import CommentForm from './CommentForm';
   
 class PostDetail extends Component {
@@ -44,19 +45,17 @@ class PostDetail extends Component {
                 <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
               </ButtonGroup>
             </CardFooter>
-            <ListGroup className="list-group-flush">
+            <CardBlock>
               {
                 this.props.comments.map((comment) =>
-                  <ListGroupItem key={comment.id}>
-                    <p>{comment.body} --{comment.author}</p>
-                  </ListGroupItem>
+                  <Comment key={comment.id} comment={comment} />
                 )
               }
               <ListGroupItem>
                 <ListGroupItemHeading>Add a Comment</ListGroupItemHeading>
                 <CommentForm parentId={this.props.match.params.postId} />
               </ListGroupItem>
-            </ListGroup>
+            </CardBlock>
           </Card>
         )}
       </div>
