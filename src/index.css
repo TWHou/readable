@@ -3,6 +3,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
- .blockquote {
-   font-size: .9rem;
- }
+.blockquote {
+  font-size: .9rem;
+}
+.comment-footer {
+  font-size: 80%;
+}
+.score {
+  padding: 1rem;
+}

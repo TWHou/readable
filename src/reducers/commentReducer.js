@@ -35,7 +35,7 @@ const commentReducer = (state={}, action) => {
           ...state.comments,
           [action.id]: {
             ...state.comments[action.id],
-            vote: action.vote
+            voteScore: action.voteScore
           }
         }
       };

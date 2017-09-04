@@ -28,10 +28,10 @@ export const addCommentAPI = (comment) => (dispatch) => {
   );
 };
 
-const voteComment = ({ id, vote }) => ({
+const voteComment = ({ id, voteScore }) => ({
   type: VOTE_COMMENT,
   id,
-  vote
+  voteScore
 });
 
 export const voteCommentAPI = (id, vote) => (dispatch) => {

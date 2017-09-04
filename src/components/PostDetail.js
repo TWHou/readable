@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText, CardBlock,
-  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
+  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem } from 'reactstrap';
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';  
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';  
 import Moment from 'react-moment';
@@ -36,7 +36,7 @@ class PostDetail extends Component {
               </CardSubtitle>
             </CardBlock>
             <CardBlock>
-              <CardText>{post.body}</CardText>
+              <CardText className="lead">{post.body}</CardText>
             </CardBlock>
             <CardFooter className="d-flex justify-content-between">
               <span>Score: {post.voteScore}</span>
@@ -45,16 +45,18 @@ class PostDetail extends Component {
                 <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
               </ButtonGroup>
             </CardFooter>
-            <CardBlock>
-              {
-                this.props.comments.map((comment) =>
-                  <Comment key={comment.id} comment={comment} />
-                )
-              }
-              <ListGroupItem>
-                <ListGroupItemHeading>Add a Comment</ListGroupItemHeading>
-                <CommentForm parentId={this.props.match.params.postId} />
+            <ListGroup className="list-group-flush">
+            {
+              this.props.comments.map((comment) =>
+              <ListGroupItem key={comment.id}>
+                <Comment comment={comment} />
               </ListGroupItem>
+              )
+            }
+            </ListGroup>
+            <CardHeader>Add a Comment</CardHeader>
+            <CardBlock>
+              <CommentForm parentId={this.props.match.params.postId} />
             </CardBlock>
           </Card>
         )}
