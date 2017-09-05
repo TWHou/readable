@@ -93,8 +93,7 @@ api.editPost = (id, post) => axios.put(`${root}/posts/${id}`, post)
 // Sets the deleted flag for a post to 'true'.
 // Sets the parentDeleted flag for all child comments to 'true'.
 
-api.deletePost = (id) => axios.delete(`${root}/posts/${id}`)
-.then((res) => res.data);
+api.deletePost = (id) => axios.delete(`${root}/posts/${id}`);
 
 // GET /posts/:id/comments
 // USAGE:

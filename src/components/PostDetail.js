@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText, CardBlock,
-  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem, Modal } from 'reactstrap';
+  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem, Modal, Alert } from 'reactstrap';
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';  
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';  
 import FaPencil from 'react-icons/lib/fa/pencil';  
 import FaTrashO from 'react-icons/lib/fa/trash-o';  
 import Moment from 'react-moment';
 
-import { votePostAPI } from '../actions/postActions';
+import { votePostAPI, deletePostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';
 import Comment from './Comment';
 import PostForm from './PostForm';
@@ -18,13 +18,25 @@ import CommentForm from './CommentForm';
 class PostDetail extends Component {
 
   state = {
-    editPost: false,    
+    edit: false,
+    delete: false 
   }
 
   toggleEdit = () => {
     this.setState({
-      editPost: !this.state.editPost
+      edit: !this.state.edit
     });
+  }
+
+  toggleDelete = () => {
+    this.setState({
+      delete: !this.state.delete
+    });
+  }
+
+  handleDelete = () => {
+    this.props.deletePost(this.props.match.params.postId);
+    this.props.history.push('/');
   }
 
   componentDidMount() {
@@ -59,7 +71,7 @@ class PostDetail extends Component {
               </ButtonGroup>
               <ButtonGroup size="sm">
                 <Button onClick={this.toggleEdit}><FaPencil /></Button>
-                <Button><FaTrashO /></Button>
+                <Button onClick={this.toggleDelete}><FaTrashO /></Button>
               </ButtonGroup>
             </CardFooter>
             <ListGroup className="list-group-flush">
@@ -77,8 +89,15 @@ class PostDetail extends Component {
             </CardBlock>
           </Card>
         )}
-        <Modal isOpen={this.state.editPost} toggle={this.toggleEdit}>
+        <Modal isOpen={this.state.edit} toggle={this.toggleEdit}>
           <PostForm edit post={this.props.post} onClose={this.toggleEdit} />
+        </Modal>
+        <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
+          <Alert color="danger" className="m-0">
+            <strong>Are you Sure?</strong> This cannot be undone.<br />
+            <Button color="danger" block onClick={this.handleDelete}>Delete this post</Button>
+            <Button color="secondary" block onClick={this.toggleDelete}>I changed my mind.</Button>
+          </Alert>
         </Modal>
       </div>
     );
@@ -88,8 +107,10 @@ class PostDetail extends Component {
 PostDetail.propTypes = {
   post: PropTypes.object,
   votePost: PropTypes.func,
+  deletePost: PropTypes.func,
   getComments: PropTypes.func,
   match: PropTypes.object,
+  history: PropTypes.object,
   comments: PropTypes.array
 };
 
@@ -112,6 +133,7 @@ export default connect(
   mapStateToProps,
   { 
     votePost: votePostAPI,
-    getComments: getCommentsAPI
+    getComments: getCommentsAPI,
+    deletePost: deletePostAPI
   }
 )(PostDetail);

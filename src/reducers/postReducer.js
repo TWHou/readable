@@ -55,7 +55,7 @@ const postReducer = (state={}, action) => {
         ...state,
         posts: {
           ...state.posts,
-          [post.id]: null
+          [action.id]: null
         }
       };
     default:

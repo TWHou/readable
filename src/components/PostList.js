@@ -38,7 +38,7 @@ PostList.propTypes = {
 const mapStateToProps = ({ post }) => {
   if (post.posts) {
     return {
-      posts: Object.keys(post.posts).map((postId) => post.posts[postId])
+      posts: Object.keys(post.posts).map((postId) => post.posts[postId]).filter((post) => post)
     };
   } else {
     return {

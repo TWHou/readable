@@ -69,13 +69,13 @@ export const editPostAPI = (id, post) => (dispatch) => {
   );
 };
 
-const deletePost = (post) => ({
+const deletePost = (id) => ({
   type: DELETE_POST,
-  post
+  id
 });
 
 export const deletePostAPI = (id) => (dispatch) => {
   api.deletePost(id).then(
-    (post) => dispatch(deletePost(post))
+    () => dispatch(deletePost(id))
   );
 };
