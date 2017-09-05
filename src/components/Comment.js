@@ -5,7 +5,7 @@ import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';
 import FaPencil from 'react-icons/lib/fa/pencil';  
 import FaTrashO from 'react-icons/lib/fa/trash-o'; 
-import { Modal } from 'reactstrap';
+import { Alert, Button, Modal } from 'reactstrap';
 import Moment from 'react-moment';
 
 import CommentForm from './CommentForm';
@@ -14,12 +14,19 @@ import { voteCommentAPI, deleteCommentAPI } from '../actions/commentActions';
 class Comment extends Component {
 
   state = {
-    edit: false,    
+    edit: false,
+    delete: false 
   }
 
-  toggle = () => {
+  toggleEdit = () => {
     this.setState({
       edit: !this.state.edit
+    });
+  }
+
+  toggleDelete = () => {
+    this.setState({
+      delete: !this.state.delete
     });
   }
 
@@ -41,10 +48,17 @@ class Comment extends Component {
           <span className="m-3">{comment.voteScore}</span>
           <FaThumbsODown onClick={() => this.handleVote('downVote')} />
           <FaPencil className="m-3" onClick={this.toggle} />
-          <FaTrashO onClick={this.handleDelete}/>
+          <FaTrashO onClick={this.toggleDelete}/>
         </footer>
-        <Modal isOpen={this.state.edit} toggle={this.toggle}>
-          <CommentForm edit comment={this.props.comment} onClose={this.toggle} />
+        <Modal isOpen={this.state.edit} toggle={this.toggleEdit}>
+          <CommentForm edit comment={this.props.comment} onClose={this.toggleEdit} />
+        </Modal>
+        <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
+          <Alert color="danger" className="m-0">
+            <strong>Are you Sure?</strong> This cannot be undone.<br />
+            <Button color="danger" block onClick={this.handleDelete}>Delete this Comment</Button>
+            <Button color="secondary" block onClick={this.toggleDelete}>I changed my mind.</Button>
+          </Alert>
         </Modal>
       </div>
     );
