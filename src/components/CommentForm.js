@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-import { addCommentAPI } from '../actions/commentActions';
+import { addCommentAPI, editCommentAPI } from '../actions/commentActions';
 
 class CommentForm extends Component {
 
@@ -12,6 +12,17 @@ class CommentForm extends Component {
     body: '',
     hasError: false
   }
+
+  componentDidMount() {
+    if (this.props.comment) {
+      const { author, body } = this.props.comment;
+      this.setState({
+        author,
+        body
+      });
+    }
+  }
+  
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -37,8 +48,13 @@ class CommentForm extends Component {
     event.preventDefault();
     if (this.validateForm()) {
       let { hasError, ...comment } = this.state;
-      comment.parentId = this.props.parentId;
-      this.props.addComment(comment);
+      if (this.props.edit) {
+        this.props.editComment(this.props.comment.id, comment);
+        this.props.onClose();
+      } else {
+        comment.parentId = this.props.parentId;
+        this.props.addComment(comment);
+      }
       this.handleReset();
     } else {
       this.setState({
@@ -49,7 +65,7 @@ class CommentForm extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit} className="w-100">
+      <Form onSubmit={this.handleSubmit} className={this.props.edit ? "w-100 p-3" : "w-100"}>
         {this.state.hasError && (
           <Alert color="danger">
             <strong>Oops!</strong> All fields are required to add a comment.
@@ -58,7 +74,7 @@ class CommentForm extends Component {
         <FormGroup row>
           <Label for="author" sm={2}>Name</Label>
           <Col sm={10}>
-            <Input type="text" name="author" id="author" placeholder="Name" value={this.state.author} onChange={this.handleChange} />
+            <Input type="text" name="author" id="author" placeholder="Name" value={this.state.author} onChange={this.handleChange} readOnly={this.props.edit} />
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -78,13 +94,18 @@ class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
-  parentId: PropTypes.string.isRequired,
+  parentId: PropTypes.string,
+  edit: PropTypes.bool,
+  editComment: PropTypes.func,
+  onClose: PropTypes.func,
+  comment: PropTypes.object,
   addComment: PropTypes.func
 };
 
 export default connect(
   null,
   { 
-    addComment: addCommentAPI
+    addComment: addCommentAPI,
+    editComment: editCommentAPI
   }
 )(CommentForm);
