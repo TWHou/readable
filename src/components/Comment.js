@@ -9,7 +9,7 @@ import { Modal } from 'reactstrap';
 import Moment from 'react-moment';
 
 import CommentForm from './CommentForm';
-import { voteCommentAPI } from '../actions/commentActions';
+import { voteCommentAPI, deleteCommentAPI } from '../actions/commentActions';
 
 class Comment extends Component {
 
@@ -27,6 +27,10 @@ class Comment extends Component {
     this.props.voteComment(this.props.comment.id, vote);
   }
 
+  handleDelete = () => {
+    this.props.deleteComment(this.props.comment.id);
+  }
+
   render() {
     const { comment } = this.props;
     return (
@@ -37,7 +41,7 @@ class Comment extends Component {
           <span className="m-3">{comment.voteScore}</span>
           <FaThumbsODown onClick={() => this.handleVote('downVote')} />
           <FaPencil className="m-3" onClick={this.toggle} />
-          <FaTrashO />
+          <FaTrashO onClick={this.handleDelete}/>
         </footer>
         <Modal isOpen={this.state.edit} toggle={this.toggle}>
           <CommentForm edit comment={this.props.comment} onClose={this.toggle} />
@@ -49,12 +53,14 @@ class Comment extends Component {
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
-  voteComment: PropTypes.func
+  voteComment: PropTypes.func,
+  deleteComment: PropTypes.func
 };
 
 export default connect(
   null,
   { 
     voteComment: voteCommentAPI,
+    deleteComment: deleteCommentAPI
   }
 )(Comment);

@@ -103,7 +103,7 @@ const mapStateToProps = ({ post, comment }, { match }) => {
     props.post = post.posts[match.params.postId];
   }
   if (comment.comments) {
-    props.comments = Object.keys(comment.comments).map((commentId) => comment.comments[commentId]);
+    props.comments = Object.keys(comment.comments).map((commentId) => comment.comments[commentId]).filter((comment) => comment);
   }
   return props;
 };
