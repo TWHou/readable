@@ -2,17 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText, CardBlock,
-  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem } from 'reactstrap';
+  CardTitle, CardSubtitle, CardFooter, Button, ButtonGroup, ListGroup, ListGroupItem, Modal } from 'reactstrap';
 import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';  
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';  
+import FaPencil from 'react-icons/lib/fa/pencil';  
+import FaTrashO from 'react-icons/lib/fa/trash-o';  
 import Moment from 'react-moment';
 
 import { votePostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';
 import Comment from './Comment';
+import PostForm from './PostForm';
 import CommentForm from './CommentForm';
   
 class PostDetail extends Component {
+
+  state = {
+    editPost: false,    
+  }
+
+  toggleEdit = () => {
+    this.setState({
+      editPost: !this.state.editPost
+    });
+  }
 
   componentDidMount() {
     this.props.getComments(this.props.match.params.postId);
@@ -44,6 +57,10 @@ class PostDetail extends Component {
                 <Button onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
                 <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
               </ButtonGroup>
+              <ButtonGroup size="sm">
+                <Button onClick={this.toggleEdit}><FaPencil /></Button>
+                <Button><FaTrashO /></Button>
+              </ButtonGroup>
             </CardFooter>
             <ListGroup className="list-group-flush">
             {
@@ -60,6 +77,9 @@ class PostDetail extends Component {
             </CardBlock>
           </Card>
         )}
+        <Modal isOpen={this.state.editPost} toggle={this.toggleEdit}>
+          <PostForm edit post={this.props.post} onClose={this.toggleEdit} />
+        </Modal>
       </div>
     );
   }

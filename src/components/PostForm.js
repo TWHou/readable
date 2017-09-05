@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Alert, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { capitalize } from '../utils/helpers';
-import { addPostAPI } from '../actions/postActions';
+import { addPostAPI, editPostAPI } from '../actions/postActions';
 
 class PostForm extends Component {
 
@@ -14,6 +14,18 @@ class PostForm extends Component {
     category: '',
     body: '',
     hasError: false
+  }
+
+  componentDidMount() {
+    if (this.props.post) {
+      const { author, title, category, body } = this.props.post;
+      this.setState({
+        author,
+        title,
+        category,
+        body
+      });
+    }
   }
 
   handleChange = (event) => {
@@ -32,8 +44,13 @@ class PostForm extends Component {
     event.preventDefault();
     if (this.validateForm()) {
       const { hasError, ...post } = this.state;
-      this.props.addPost(post);
-      this.props.history.push('/');
+      if (this.props.edit) {
+        this.props.editPost(this.props.post.id, post);
+        this.props.onClose();
+      } else {
+        this.props.addPost(post);
+        this.props.history.push('/');
+      }
     } else {
       this.setState({
         hasError: true
@@ -43,7 +60,7 @@ class PostForm extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} className="p-3">
         {this.state.hasError && (
           <Alert color="danger">
             <strong>Oops!</strong> All fields are required to add a post.
@@ -52,7 +69,7 @@ class PostForm extends Component {
         <FormGroup row>
           <Label for="author" sm={2}>Name</Label>
           <Col sm={10}>
-            <Input type="text" name="author" id="author" placeholder="Name" value={this.state.author} onChange={this.handleChange} />
+            <Input type="text" name="author" id="author" placeholder="Name" value={this.state.author} onChange={this.handleChange} readOnly={this.props.edit} />
           </Col>
         </FormGroup>
         <FormGroup row>
@@ -64,7 +81,7 @@ class PostForm extends Component {
         <FormGroup row>
           <Label for="category" sm={2}>Category</Label>
           <Col sm={10}>
-            <Input type="select" name="category" id="category" value={this.state.category} onChange={this.handleChange}>
+            <Input type="select" name="category" id="category" value={this.state.category} onChange={this.handleChange} readOnly={this.props.edit} >
               <option value="">Select One</option>
               {this.props.categories.map((category) => (
                 <option key={category} value={category}>
@@ -91,8 +108,12 @@ class PostForm extends Component {
 }
 
 PostForm.propTypes = {
-  categories: PropTypes.array,  
+  categories: PropTypes.array,
+  edit: PropTypes.bool,
   addPost: PropTypes.func,
+  editPost: PropTypes.func,
+  onClose: PropTypes.func,
+  post: PropTypes.object,
   history: PropTypes.object
 };
 
@@ -107,6 +128,7 @@ const mapStateToProps = ({ category }) => ({
 export default connect(
   mapStateToProps,
   { 
-    addPost: addPostAPI
+    addPost: addPostAPI,
+    editPost: editPostAPI
   }
 )(PostForm);
