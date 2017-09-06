@@ -21,7 +21,9 @@ const postReducer = (state={}, action) => {
     case RECEIVE_POST:
       return {
         ...state,
-        post
+        posts: {
+          [post.id]: post
+        }
       };
     case ADD_POST:
       return {

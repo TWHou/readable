@@ -5,9 +5,6 @@ import {
   EDIT_COMMENT,
   DELETE_COMMENT
 } from '../actions/commentActions';
-import {
-  DELETE_POST  
-} from '../actions/postActions';
 
 const commentReducer = (state={}, action) => {
   const { comments, comment } = action;
@@ -46,16 +43,6 @@ const commentReducer = (state={}, action) => {
           ...state.comments,
           [comment.id]: comment
         }
-      };
-    case DELETE_POST:
-      return {
-        ...state,
-        comments: Object.keys(state.comments).reduce((acc, cur) => {
-          if (state.comments[cur].parentId !== action.post.id) {
-            acc[cur] = state.comments[cur];
-          }
-          return acc;
-        }, {})
       };
       case DELETE_COMMENT:
       return {
