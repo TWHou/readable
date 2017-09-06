@@ -13,8 +13,3 @@ export const getCategories = () => (dispatch) => {
     (categories) => dispatch(receiveCategories(categories))
   );
 };
-
-export const selectCategory = (selectedCategory) => ({
-  type: SELECT_CATEGORY,
-  selectedCategory
-});

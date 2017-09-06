@@ -9,7 +9,7 @@ import FaPencil from 'react-icons/lib/fa/pencil';
 import FaTrashO from 'react-icons/lib/fa/trash-o';  
 import Moment from 'react-moment';
 
-import { votePostAPI, deletePostAPI } from '../actions/postActions';
+import { getPostAPI, votePostAPI, deletePostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';
 import Comment from './Comment';
 import PostForm from './PostForm';
@@ -40,6 +40,7 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
+    this.props.getPost(this.props.match.params.postId);
     this.props.getComments(this.props.match.params.postId);
   }
 
@@ -108,6 +109,7 @@ PostDetail.propTypes = {
   post: PropTypes.object,
   votePost: PropTypes.func,
   deletePost: PropTypes.func,
+  getPost: PropTypes.func,
   getComments: PropTypes.func,
   match: PropTypes.object,
   history: PropTypes.object,
@@ -118,10 +120,10 @@ PostDetail.defaultProps = {
   comments: []
 };
 
-const mapStateToProps = ({ post, comment }, { match }) => {
+const mapStateToProps = ({ post, comment }) => {
   let props = {};
-  if (post.posts) {
-    props.post = post.posts[match.params.postId];
+  if (post.post) {
+    props.post = post.post;
   }
   if (comment.comments) {
     props.comments = Object.keys(comment.comments).map((commentId) => comment.comments[commentId]).filter((comment) => comment);
@@ -132,6 +134,7 @@ const mapStateToProps = ({ post, comment }, { match }) => {
 export default connect(
   mapStateToProps,
   { 
+    getPost: getPostAPI,
     votePost: votePostAPI,
     getComments: getCommentsAPI,
     deletePost: deletePostAPI

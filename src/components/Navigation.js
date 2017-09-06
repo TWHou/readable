@@ -8,16 +8,9 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  NavLink
 } from 'reactstrap';
 
-
-import { selectCategory } from '../actions/categoryActions';
-import { getPostsAPI } from '../actions/postActions';
 import { capitalize } from '../utils/helpers';
 
 class Navigation extends Component {
@@ -26,21 +19,10 @@ class Navigation extends Component {
     isOpen: false,
     dropdownOpen: false
   }
-
-  onSelect = (category) => {
-    this.props.selectCategory(category);
-    this.props.getPosts(category);
-  }
   
   toggleNav = () => {
     this.setState({
       isOpen: !this.state.isOpen
-    });
-  }
-  
-  toggleDropdown = () => {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
     });
   }
 
@@ -51,30 +33,17 @@ class Navigation extends Component {
           <NavbarToggler right onClick={this.toggleNav} />
           <NavbarBrand href="/">Readable</NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-                  <DropdownToggle caret nav>
-                    Category
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <DropdownItem onClick={() => this.onSelect(null)}>
-                      All
-                    </DropdownItem>
-                    {this.props.categories.map((category) => (
-                      <DropdownItem
-                        key={category}
-                        onClick={
-                          () => this.onSelect(category)
-                        }
-                      >
-                        {capitalize(category)}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-              </NavItem>
-              <NavItem>
+            <Nav className="w-100" navbar>
+              {this.props.categories.map((category) => (
+                <NavItem
+                  key={category}
+                >
+                  <NavLink href={`/${category}`}>
+                    {capitalize(category)}
+                  </NavLink>
+                </NavItem>
+              ))}
+              <NavItem className="ml-auto">
                 <NavLink href="/new/">New Post</NavLink>
               </NavItem>
               <NavItem>
@@ -89,9 +58,7 @@ class Navigation extends Component {
 }
 
 Navigation.propTypes = {
-  categories: PropTypes.array,
-  selectCategory: PropTypes.func,
-  getPosts: PropTypes.func
+  categories: PropTypes.array
 };
 
 Navigation.defaultProps = {
@@ -104,8 +71,5 @@ const mapStateToProps = ({ category }) => ({
 
 export default connect(
   mapStateToProps,
-  { 
-    selectCategory: selectCategory,
-    getPosts: getPostsAPI
-  }
+  null
 )(Navigation);

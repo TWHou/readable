@@ -67,6 +67,9 @@ api.addPost = (post) => {
 // USAGE:
 // Get the details of a single post
 
+api.getPost = (id) => axios.get(`${root}/posts/${id}`)
+.then((res) => res.data);
+
 // POST /posts/:id
 // USAGE:
 // Used for voting on a post

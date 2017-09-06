@@ -16,7 +16,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getCategories();
-    this.props.getPosts();
+    // this.props.getPosts();
   }
 
   render() {
@@ -26,7 +26,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={PostList} />
           <Route exact path="/new" component={PostForm} />
-          <Route path="/:postId" component={PostDetail} />
+          <Route exact path="/:category" component={PostList} />
+          <Route path="/:category/:postId" component={PostDetail} />
         </Switch>
       </div>
     );

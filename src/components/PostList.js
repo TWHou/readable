@@ -2,10 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Card, CardText, CardBlock,
-  CardTitle, CardSubtitle } from 'reactstrap';
+import { Card, CardText, CardBlock, CardTitle, CardSubtitle } from 'reactstrap';
 
+import { getPostsAPI } from '../actions/postActions';
+  
 class PostList extends Component {
+
+  componentDidMount() {
+    if (this.props.match.params.category) {
+      this.props.getPosts(this.props.match.params.category);
+    } else {
+      this.props.getPosts();
+    }
+  }
+  
   render() {
     return (
       <div>
@@ -14,7 +24,7 @@ class PostList extends Component {
             <Card key={post.id}>
               <CardBlock>
                 <CardTitle>
-                  <Link to={`/${post.id}`}>
+                  <Link to={`/${post.category}/${post.id}`}>
                     {post.title}
                   </Link>
                 </CardTitle>
@@ -32,6 +42,8 @@ class PostList extends Component {
 }
 
 PostList.propTypes = {
+  match: PropTypes.object,  
+  getPosts: PropTypes.func,
   posts: PropTypes.array
 };
 
@@ -49,5 +61,7 @@ const mapStateToProps = ({ post }) => {
 
 export default connect(
   mapStateToProps,
-  null
+  { 
+    getPosts: getPostsAPI
+  }
 )(PostList);
