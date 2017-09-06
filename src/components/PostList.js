@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Card, CardText, CardBlock, CardTitle, CardSubtitle } from 'reactstrap';
 
 import { getPostsAPI } from '../actions/postActions';
+import Post from './Post';
   
 class PostList extends Component {
 
@@ -21,19 +20,7 @@ class PostList extends Component {
       <div>
         {
           this.props.posts.map((post) => 
-            <Card key={post.id}>
-              <CardBlock>
-                <CardTitle>
-                  <Link to={`/${post.category}/${post.id}`}>
-                    {post.title}
-                  </Link>
-                </CardTitle>
-                <CardSubtitle>{post.author}</CardSubtitle>
-                <CardText>
-                  {post.body}
-                </CardText>
-              </CardBlock>
-            </Card>
+            <Post key={post.id} post={post}/>
           )
         }
       </div>
