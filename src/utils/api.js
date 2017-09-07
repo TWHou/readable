@@ -21,6 +21,20 @@ axios.defaults.headers.common['Authorization'] = token;
 
 const api = {};
 
+const getCommentCount = (postArr) => {
+  const promiseArr = postArr.map(
+    (post) => api.getComments(post.id)
+  );
+  return axios.all(promiseArr).then(
+    (resultArr) => resultArr.map((result) => result.length)
+  ).then((lengthArr) => 
+    lengthArr.map((length, index) => {
+      postArr[index].comments = length;
+      return postArr[index];
+    })
+  );
+};
+
 // GET /categories
 // USAGE:
 // Get all of the categories available for the app. List is found in categories.js. Feel free to extend this list as you desire.
@@ -34,14 +48,14 @@ api.getCategories = () => axios.get(`${root}/categories`)
 // Get all of the posts for a particular category
 
 api.getCategoryPosts = (category) => axios.get(`${root}/${category}/posts`)
-.then((res) => res.data);
+.then((res) => getCommentCount(res.data));
 
 // GET /posts
 // USAGE:
 // Get all of the posts. Useful for the main page when no category is selected.
 
 api.getPosts = () => axios.get(`${root}/posts`)
-.then((res) => res.data);
+.then((res) => getCommentCount(res.data));
 
 // POST /posts
 // USAGE:

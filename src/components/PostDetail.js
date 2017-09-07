@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText, CardBlock, ListGroup, ListGroupItem } from 'reactstrap';
-// import Moment from 'react-moment';
 
 import { getPostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';

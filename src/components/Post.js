@@ -61,7 +61,9 @@ class Post extends Component {
           </CardTitle>
           <CardText>
             Posted by {post.author} <Moment fromNow className="text-muted">{post.timestamp}</Moment><br />
-            # Comments
+            {post.comments && (
+              <span>{post.comments} Comments</span>
+            )}
           </CardText>
         </CardBlock>
         <div className="mr-2">
