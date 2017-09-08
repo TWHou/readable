@@ -42,6 +42,16 @@ class Post extends Component {
     this.props.votePost(this.props.post.id, vote);
   }
 
+  commentCount = () => {
+    const comments = this.props.post.comments;
+    if(comments > 1) {
+      return `${comments} comments`;
+    }
+    if (comments === 0 || comments === 1) {
+      return `${comments} comment`;
+    }
+  }
+
   render() {
     const { post } = this.props;
     return (
@@ -60,10 +70,8 @@ class Post extends Component {
             </Link>
           </CardTitle>
           <CardText>
-            Posted by {post.author} <Moment fromNow className="text-muted">{post.timestamp}</Moment><br />
-            {post.comments && (
-              <span>{post.comments} Comments</span>
-            )}
+            Posted by {post.author} <Moment className="text-muted">{post.timestamp}</Moment><br />
+            {this.commentCount()}
           </CardText>
         </CardBlock>
         <div className="mr-2">

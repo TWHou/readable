@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import { getPostsAPI } from '../actions/postActions';
+import { getPostsAPI, sortPost } from '../actions/postActions';
+import { sort_by } from '../utils/helpers';
 import Post from './Post';
   
 class PostList extends Component {
@@ -14,10 +16,33 @@ class PostList extends Component {
       this.props.getPosts();
     }
   }
+
+  handleSort = (sort) => {
+    this.props.sortPost(sort);
+  }
   
   render() {
     return (
       <div>
+        <UncontrolledDropdown>
+          <DropdownToggle caret>
+            Sort Posts By
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => this.handleSort('timestamp')}>
+              Date: Old to New
+            </DropdownItem>
+            <DropdownItem onClick={() => this.handleSort('-timestamp')}>
+              Date: New to Old
+            </DropdownItem>
+            <DropdownItem onClick={() => this.handleSort('-voteScore')}>
+              Score: High to Low
+            </DropdownItem>
+            <DropdownItem onClick={() => this.handleSort('voteScore')}>
+              Score: Low to High
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
         {
           this.props.posts.map((post) => 
             <Post key={post.id} post={post}/>
@@ -31,13 +56,18 @@ class PostList extends Component {
 PostList.propTypes = {
   match: PropTypes.object,  
   getPosts: PropTypes.func,
+  sortPost: PropTypes.func,
   posts: PropTypes.array
 };
 
 const mapStateToProps = ({ post }) => {
   if (post.posts) {
+    let posts = Object.keys(post.posts).map((postId) => post.posts[postId]).filter((post) => post);
+    if (post.sortBy) {
+      posts.sort(sort_by(post.sortBy));
+    }
     return {
-      posts: Object.keys(post.posts).map((postId) => post.posts[postId]).filter((post) => post)
+      posts
     };
   } else {
     return {
@@ -49,6 +79,7 @@ const mapStateToProps = ({ post }) => {
 export default connect(
   mapStateToProps,
   { 
-    getPosts: getPostsAPI
+    getPosts: getPostsAPI,
+    sortPost: sortPost
   }
 )(PostList);

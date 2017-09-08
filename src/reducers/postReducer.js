@@ -4,7 +4,8 @@ import {
   ADD_POST,
   VOTE_POST,
   EDIT_POST,
-  DELETE_POST
+  DELETE_POST,
+  SORT_POST
 } from '../actions/postActions';
 
 const postReducer = (state={}, action) => {
@@ -59,6 +60,11 @@ const postReducer = (state={}, action) => {
           ...state.posts,
           [action.id]: null
         }
+      };
+    case SORT_POST:
+      return {
+        ...state,
+        sortBy: action.sort
       };
     default:
       return state;
