@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import './App.css';
 
 import { getCategories } from '../actions/categoryActions';
 import { getPostsAPI } from '../actions/postActions';
@@ -16,7 +15,6 @@ class App extends Component {
 
   componentDidMount() {
     this.props.getCategories();
-    // this.props.getPosts();
   }
 
   render() {
