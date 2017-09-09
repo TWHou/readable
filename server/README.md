@@ -1,5 +1,17 @@
 # Readable API Server
 
+## Changes from starter code
+In `post.js`, line 60 has been changed.
+
+Before:
+```
+let filtered_keys = keys.filter(key => !posts.deleted)
+```
+After:
+```
+let filtered_keys = keys.filter(key => !posts[key].deleted)
+```
+
 ## Installation
 
 Install packages: `npm install`
