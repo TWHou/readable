@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Card, CardHeader, CardText, CardBlock, ListGroup, ListGroupItem } from 'reactstrap';
+import { Card, CardHeader, CardBlock, ListGroup, ListGroupItem } from 'reactstrap';
 
 import { getPostAPI } from '../actions/postActions';
 import { getCommentsAPI } from '../actions/commentActions';
@@ -28,13 +28,9 @@ class PostDetail extends Component {
           <Post post={post} onDelete={this.handleDelete} />
         )}
         {post && (
-          <Card>
-            <CardBlock>
-              <CardText className="h3">
-                {post.body}
-              </CardText>
-            </CardBlock>
-          </Card>
+          <div className="my-3 p-4 h3">
+            {post.body}
+          </div>
         )}
         <Card>
           <ListGroup className="list-group-flush">

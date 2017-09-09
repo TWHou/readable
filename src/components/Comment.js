@@ -5,7 +5,7 @@ import FaThumbsOUp from 'react-icons/lib/fa/thumbs-o-up';
 import FaThumbsODown from 'react-icons/lib/fa/thumbs-o-down';
 import FaPencil from 'react-icons/lib/fa/pencil';  
 import FaTrashO from 'react-icons/lib/fa/trash-o'; 
-import { Alert, Button, Modal } from 'reactstrap';
+import { ButtonGroup, Alert, Button, Modal } from 'reactstrap';
 import Moment from 'react-moment';
 
 import CommentForm from './CommentForm';
@@ -41,15 +41,25 @@ class Comment extends Component {
   render() {
     const { comment } = this.props;
     return (
-      <div>
-        <p>{comment.author} (<Moment fromNow className="text-muted">{comment.timestamp}</Moment>) said: {comment.body}</p>
-        <footer className="comment-footer">
-          <FaThumbsOUp onClick={() => this.handleVote('upVote')} />
-          <span className="m-3">{comment.voteScore}</span>
-          <FaThumbsODown onClick={() => this.handleVote('downVote')} />
-          <FaPencil className="m-3" onClick={this.toggle} />
-          <FaTrashO onClick={this.toggleDelete}/>
-        </footer>
+      <div className="d-flex flex-row w-100">
+        <ButtonGroup size="sm" vertical>
+          <Button onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
+          <Button>{comment.voteScore}</Button>
+          <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
+        </ButtonGroup>
+        <div className="ml-3">
+          <p>{comment.body}</p>
+          <p>
+            <span className="mr-2">{comment.author}</span>
+            <Moment fromNow className="text-muted">
+              {comment.timestamp}
+            </Moment>
+          </p>
+        </div>
+        <ButtonGroup size="sm" vertical className="align-self-center ml-auto">
+          <Button onClick={this.toggleEdit}><FaPencil /></Button>
+          <Button onClick={this.toggleDelete}><FaTrashO /></Button>
+        </ButtonGroup>
         <Modal isOpen={this.state.edit} toggle={this.toggleEdit}>
           <CommentForm edit comment={this.props.comment} onClose={this.toggleEdit} />
         </Modal>

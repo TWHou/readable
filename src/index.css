@@ -6,9 +6,6 @@ body {
 .blockquote {
   font-size: .9rem;
 }
-.comment-footer {
-  font-size: 80%;
-}
-.score {
-  padding: 1rem;
+.card {
+  margin: 1rem 0;
 }

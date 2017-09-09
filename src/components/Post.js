@@ -56,7 +56,7 @@ class Post extends Component {
     const { post } = this.props;
     return (
       <Card className="d-flex flex-row align-items-center">
-        <div className="ml-2">
+        <div className="m-2">
           <ButtonGroup vertical>
             <Button onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
             <Button>{post.voteScore}</Button>
@@ -70,7 +70,7 @@ class Post extends Component {
             </Link>
           </CardTitle>
           <CardText>
-            Posted by {post.author} <Moment className="text-muted">{post.timestamp}</Moment><br />
+            Posted by {post.author} <Moment fromNow className="text-muted">{post.timestamp}</Moment><br />
             {this.commentCount()}
           </CardText>
         </CardBlock>
