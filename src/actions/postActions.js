@@ -2,6 +2,8 @@ import api from '../utils/api';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_POST_PENDING = 'RECEIVE_POST_PENDING';
+export const RECEIVE_POST_FAIL = 'RECEIVE_POST_FAIL';
 export const ADD_POST = 'ADD_POST';
 export const VOTE_POST = 'VOTE_POST';
 export const EDIT_POST = 'EDIT_POST';
@@ -25,15 +27,30 @@ export const getPostsAPI = (category) => (dispatch) => {
   }
 };
 
+const receivePostPending = () => ({
+  type: RECEIVE_POST_PENDING
+});
+
 const receivePost = (post) => ({
   type: RECEIVE_POST,
   post
 });
 
+const receivePostFail = () => ({
+  type: RECEIVE_POST_FAIL
+});
+
 export const getPostAPI = (id) => (dispatch) => {
+  dispatch(receivePostPending());
   api.getPost(id).then(
-    (post) => dispatch(receivePost(post))
-  );
+    (post) => {
+      if (post && post !== {}) {
+        dispatch(receivePost(post));
+      } else {
+        dispatch(receivePostFail());
+      }
+    }
+  ).catch(() => dispatch(receivePostFail()));
 };
 
 const addPost = (post) => ({

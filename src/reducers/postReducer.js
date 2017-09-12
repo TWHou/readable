@@ -1,6 +1,8 @@
 import {
   RECEIVE_POSTS,
   RECEIVE_POST,
+  RECEIVE_POST_PENDING,
+  RECEIVE_POST_FAIL,
   ADD_POST,
   VOTE_POST,
   EDIT_POST,
@@ -8,7 +10,12 @@ import {
   SORT_POST
 } from '../actions/postActions';
 
-const postReducer = (state={}, action) => {
+const initState = {
+  pending: false,
+  sortBy: 'timestamp'
+};
+
+const postReducer = (state=initState, action) => {
   const { posts, post } = action;
   switch(action.type) {
     case RECEIVE_POSTS:
@@ -24,7 +31,18 @@ const postReducer = (state={}, action) => {
         ...state,
         posts: {
           [post.id]: post
-        }
+        },
+        pending: false
+      };
+    case RECEIVE_POST_PENDING:
+      return {
+        ...state,
+        pending: true
+      };
+    case RECEIVE_POST_FAIL:
+      return {
+        ...state,
+        pending: false
       };
     case ADD_POST:
       return {

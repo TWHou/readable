@@ -30,16 +30,16 @@ class PostList extends Component {
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.handleSort('timestamp')}>
-              Date: Old to New
+              Date: Oldest First
             </DropdownItem>
             <DropdownItem onClick={() => this.handleSort('-timestamp')}>
-              Date: New to Old
+              Date: Newest First
             </DropdownItem>
             <DropdownItem onClick={() => this.handleSort('-voteScore')}>
-              Score: High to Low
+              Score: Highest First
             </DropdownItem>
             <DropdownItem onClick={() => this.handleSort('voteScore')}>
-              Score: Low to High
+              Score: Lowest First
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
