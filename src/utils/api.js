@@ -82,7 +82,13 @@ api.addPost = (post) => {
 // Get the details of a single post
 
 api.getPost = (id) => axios.get(`${root}/posts/${id}`)
-.then((res) => res.data);
+.then((res) => {
+  if (res.data.id) {
+    return res.data;
+  } else {
+    return Promise.reject(new Error());
+  }
+});
 
 // POST /posts/:id
 // USAGE:

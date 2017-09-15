@@ -14,7 +14,7 @@ import CommentForm from './CommentForm';
 class PostDetail extends Component {
 
   handleDelete = () => {
-    this.props.history.push('/');
+    this.props.history.replace('/');
   }
 
   componentDidMount() {
@@ -31,6 +31,21 @@ class PostDetail extends Component {
           <div className="my-3 p-4 h3">
             {post.body}
           </div>
+          <Card>
+            <ListGroup className="list-group-flush">
+            {
+              this.props.comments.map((comment) =>
+              <ListGroupItem key={comment.id}>
+                <Comment comment={comment} />
+              </ListGroupItem>
+              )
+            }
+            </ListGroup>
+            <CardHeader>Add a Comment</CardHeader>
+            <CardBlock>
+              <CommentForm parentId={this.props.match.params.postId} />
+            </CardBlock>
+          </Card>
         </div>
       ) : (
         <NoPost history={this.props.history} />
@@ -39,21 +54,6 @@ class PostDetail extends Component {
     return (
       <div>
         {displayPost}
-        <Card>
-          <ListGroup className="list-group-flush">
-          {
-            this.props.comments.map((comment) =>
-            <ListGroupItem key={comment.id}>
-              <Comment comment={comment} />
-            </ListGroupItem>
-            )
-          }
-          </ListGroup>
-          <CardHeader>Add a Comment</CardHeader>
-          <CardBlock>
-            <CommentForm parentId={this.props.match.params.postId} />
-          </CardBlock>
-        </Card>
       </div>
     );
   }
