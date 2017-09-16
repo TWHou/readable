@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Alert } from 'reactstrap';
 
 class NoPost extends Component {
@@ -12,7 +13,7 @@ class NoPost extends Component {
     return (
       <Alert color="danger" className="my-3 text-center">  
         <p><strong>Hmm.... I cannot find that post.</strong></p>
-        Redirecting to homepage in 10s......
+        <Link to="/" replace className="btn btn-block btn-secondary">Take me back to homepage</Link>
       </Alert>
     );
   }
