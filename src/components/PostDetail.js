@@ -35,7 +35,7 @@ class PostDetail extends Component {
             <ListGroup className="list-group-flush">
             {
               this.props.comments.map((comment) =>
-              <ListGroupItem key={comment.id}>
+              <ListGroupItem className="comment" key={comment.id}>
                 <Comment comment={comment} />
               </ListGroupItem>
               )

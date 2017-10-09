@@ -43,9 +43,9 @@ class Comment extends Component {
     return (
       <div className="d-flex flex-row w-100">
         <ButtonGroup size="sm" vertical>
-          <Button onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
+          <Button color="success" onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
           <Button>{comment.voteScore}</Button>
-          <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
+          <Button color="danger" onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
         </ButtonGroup>
         <div className="ml-3">
           <p>{comment.body}</p>
@@ -57,7 +57,7 @@ class Comment extends Component {
           </p>
         </div>
         <ButtonGroup size="sm" vertical className="align-self-center ml-auto">
-          <Button onClick={this.toggleEdit}><FaPencil /></Button>
+          <Button color="info" onClick={this.toggleEdit}><FaPencil /></Button>
           <Button onClick={this.toggleDelete}><FaTrashO /></Button>
         </ButtonGroup>
         <Modal isOpen={this.state.edit} toggle={this.toggleEdit}>

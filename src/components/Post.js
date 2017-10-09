@@ -55,12 +55,12 @@ class Post extends Component {
   render() {
     const { post } = this.props;
     return (
-      <Card className="d-flex flex-row align-items-center">
+      <Card className="d-flex flex-row align-items-center post">
         <div className="m-2">
           <ButtonGroup vertical>
-            <Button onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
+            <Button color="success" onClick={() => this.handleVote('upVote')}><FaThumbsOUp /></Button>
             <Button>{post.voteScore}</Button>
-            <Button onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
+            <Button color="danger" onClick={() => this.handleVote('downVote')}><FaThumbsODown /></Button>
           </ButtonGroup>
         </div>
         <CardBlock>
@@ -76,8 +76,8 @@ class Post extends Component {
         </CardBlock>
         <div className="mr-2">
           <ButtonGroup vertical>
-            <Button onClick={this.toggleEdit}><FaPencil /></Button>
-            <Button onClick={this.toggleDelete}><FaTrashO /></Button>
+            <Button color="info" onClick={this.toggleEdit}><FaPencil /></Button>
+            <Button color="secondary" onClick={this.toggleDelete}><FaTrashO /></Button>
           </ButtonGroup>
         </div>
         <Modal isOpen={this.state.edit} toggle={this.toggleEdit}>

@@ -9,3 +9,9 @@ body {
 .card {
   margin: 1rem 0;
 }
+.post {
+  background-color: #eeeeee;
+}
+.comment {
+  background-color: #c3e2ee;
+}
